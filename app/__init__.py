@@ -21,7 +21,7 @@ def create_app():
     migrate.init_app(app, db)
     jwt.init_app(app)
     
-    # Import models
+# Import models 
     from app.Models.author_model import Author
     from app.Models.book_model import Book
     from app.Models.company_model import Company

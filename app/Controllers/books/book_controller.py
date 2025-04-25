@@ -132,6 +132,7 @@ def getAllBooks():
             'error':str(e)
         }),HTTP_500_INTERNAL_SERVER_ERROR
     
+#Update book
 @books.route('/edit/<int:id>', methods=['PUT', 'PATCH'])
 @jwt_required()
 def updateBookDetails(id):
@@ -210,45 +211,40 @@ def updateBookDetails(id):
             'error': str(e)
         }), HTTP_500_INTERNAL_SERVER_ERROR
 
-# #Deletes a company
-# @companys.route('/delete/<int:id>', methods =['DELETE'])
-# @jwt_required()
-# def deleteCompany(id):
+#Deletes a company
+@books.route('/delete/<int:id>', methods =['DELETE'])
+@jwt_required()
+def deleteBook(id):
 
-#     try:
-#         current_author = get_jwt_identity()
-#         loggedInAuthor = Author.query.filter_by(id=current_author).first()
+    try:
+        current_author = get_jwt_identity()
+        loggedInAuthor = Author.query.filter_by(id=current_author).first()
 
-# #get company by id
-#         company = Company.query.filter_by(id=id).first()
+#get book by id
+        book = Book.query.filter_by(id=id).first()
 
-#         if not company:
-#             return jsonify({
-#                 "error": "Company not found"
-#             }),HTTP_404_NOT_FOUND
+        if not book:
+            return jsonify({
+                "error": "book not found"
+            }),HTTP_404_NOT_FOUND
         
-#         elif loggedInAuthor.user_type == 'Admin' and company.id == current_author:
-#             return jsonify({
-#                 "error":"You are not authorized to delete this company."
-#             }),HTTP_403_FORBIDDEN
-#         else:
-
-
-#             #delete associated books 
-#             for book in company.books:
-#                 db.session.delete(book)
+        elif loggedInAuthor.user_type == 'Admin' and book.id == current_author:
+            return jsonify({
+                "error":"You are not authorized to delete this book."
+            }),HTTP_403_FORBIDDEN
+        else:
+            #delete associated books 
             
+            db.session.delete(book)
+            db.session.commit()
 
-#             db.session.delete(company)
-#             db.session.commit()
 
+            return jsonify({
+                'message': "book deleted successfully",
 
-#             return jsonify({
-#                 'message': "Company deleted successfully",
+            })
 
-#             })
-
-#     except Exception as e:
-#         return jsonify({
-#             'error':str(e)
-#         }),HTTP_500_INTERNAL_SERVER_ERROR
+    except Exception as e:
+        return jsonify({
+            'error':str(e)
+        }),HTTP_500_INTERNAL_SERVER_ERROR
