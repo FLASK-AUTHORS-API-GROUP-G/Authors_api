@@ -7,7 +7,9 @@ from flask_bcrypt import Bcrypt
 bcrypt = Bcrypt()
 
 from app.Controllers.auth.auth_controllers import auth
-from app.Controllers.authors.author_controller import author
+from app.Controllers.authors.author_controller import authors
+from app.Controllers.company.company_controller import companys
+from app.Controllers.books.book_controller import books
 
 def create_app():
     # Application factory function
@@ -26,7 +28,9 @@ def create_app():
 
     # Register blueprints
     app.register_blueprint(auth)
-    app.register_blueprint(author)
+    app.register_blueprint(authors)
+    app.register_blueprint(companys)
+    app.register_blueprint(books)
 
     # Home route
     @app.route("/")
@@ -36,6 +40,6 @@ def create_app():
     return app
 
 # Only run the app if this script is executed directly
-if __name__ == "__main__":
-    app = create_app()
-    app.run(debug=True)
+# if __name__ == "__main__":
+#     app = create_app()
+#     app.run(debug=True)

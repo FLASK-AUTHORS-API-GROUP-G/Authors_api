@@ -89,11 +89,12 @@ def login():
 
         if author:
             is_correct_password = bcrypt.check_password_hash(author.password,password)
-            access_token = create_access_token(identity=str(author.id))
-            refresh_token = create_refresh_token(identity=str(author.id))
+            
+            # refresh_token = create_refresh_token(identity=str(author.id))
 
             if is_correct_password:
-                access_token = create_access_token(identity=author.id)
+                access_token = create_access_token(identity=str(author.id))
+                refresh_token = create_refresh_token(identity=str(author.id))
 
                 return jsonify({
                     'user':{
